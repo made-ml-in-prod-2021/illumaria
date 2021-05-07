@@ -1,6 +1,3 @@
-"""
-Module with constants for application
-"""
 from pathlib import Path
 
 from dataclasses import dataclass
