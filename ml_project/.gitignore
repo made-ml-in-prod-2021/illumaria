@@ -47,6 +47,12 @@ coverage.xml
 *.mo
 *.pot
 
+# Logs
+logs/*.log
+
+# Hydra outputs
+outputs/**/
+
 # Django stuff:
 *.log
 
@@ -76,7 +82,7 @@ target/
 .ipynb_checkpoints/
 
 # exclude data from source control by default
-/data/
+# /data/
 
 # Mac OS-specific storage files
 .DS_Store
