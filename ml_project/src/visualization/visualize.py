@@ -61,6 +61,18 @@ def save_numerical_plots(data: pd.DataFrame, output_dir: Path) -> NoReturn:
         plt.savefig(output_dir / f"plot_num_{column}.png")
 
 
+def save_pairplot(data: pd.DataFrame, output_dir: Path) -> NoReturn:
+    """
+    Save the pairplot for numerical column values and target values.
+    :param data: raw data to process
+    :param output_dir: directory to store the figure
+    :return: nothing
+    """
+    plt.figure(figsize=(16, 16))
+    sns.pairplot(data[list(NUMERICAL_COLUMNS.keys()) + [LABEL_COLUMN]], hue=LABEL_COLUMN)
+    plt.savefig(output_dir / "pairplot.png")
+
+
 def save_heatmap(data: pd.DataFrame, output_dir: Path) -> NoReturn:
     """
     Save the cross-correlation heatmap for column values.
@@ -112,6 +124,7 @@ def main():
     save_statistics(data, output_dir)
     save_categorical_plots(data, output_dir)
     save_numerical_plots(data, output_dir)
+    save_pairplot(data, output_dir)
     save_heatmap(data, output_dir)
 
 
