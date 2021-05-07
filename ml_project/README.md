@@ -9,6 +9,8 @@
 ## Installation
 
 ```bash
+git clone https://github.com/made-ml-in-prod-2021/illumaria.git
+git checkout homework1
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
