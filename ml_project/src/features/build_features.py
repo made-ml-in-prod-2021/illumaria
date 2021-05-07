@@ -53,10 +53,15 @@ def build_transformer(params: FeatureParams) -> ColumnTransformer:
     return transformer
 
 
-def make_features(transformer: ColumnTransformer, df: pd.DataFrame) -> pd.DataFrame:
-    return pd.DataFrame(transformer.transform(df))
+def make_features(
+    transformer: ColumnTransformer,
+    df: pd.DataFrame,
+    params: FeatureParams,
+) -> pd.DataFrame:
+    target = df[params.target_col] if params.target_col in df.columns else None
+    return pd.DataFrame(transformer.transform(df)), target
 
 
-def extract_target(df: pd.DataFrame, params: FeatureParams) -> pd.Series:
-    target = df[params.target_col]
-    return target
+# def extract_target(df: pd.DataFrame, params: FeatureParams) -> pd.Series:
+#     target = df[params.target_col]
+#     return target

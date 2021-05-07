@@ -4,7 +4,7 @@ from typing import Tuple
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from src.entities import SplittingParams
+from src.entities import SplitParams
 
 
 def read_data(path: str) -> pd.DataFrame:
@@ -13,7 +13,7 @@ def read_data(path: str) -> pd.DataFrame:
 
 
 def split_train_val_data(
-    data: pd.DataFrame, params: SplittingParams
+    data: pd.DataFrame, params: SplitParams
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     :rtype: object

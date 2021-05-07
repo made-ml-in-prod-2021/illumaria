@@ -1,25 +1,33 @@
-from dataclasses import dataclass
-from .split_params import SplittingParams
-from .feature_params import FeatureParams
-from .train_params import TrainingParams
-from marshmallow_dataclass import class_schema
 import yaml
+
+from dataclasses import dataclass
+from marshmallow_dataclass import class_schema
+
+from .feature_params import FeatureParams
+from .split_params import SplitParams
+from .train_params import TrainParams
 
 
 @dataclass()
-class TrainingPipelineParams:
+class TrainPipelineParams:
+    """Dataclass for training pipeline configuration."""
     input_data_path: str
     output_model_path: str
     metric_path: str
-    splitting_params: SplittingParams
+    split_params: SplitParams
     feature_params: FeatureParams
-    train_params: TrainingParams
+    train_params: TrainParams
 
 
-TrainingPipelineParamsSchema = class_schema(TrainingPipelineParams)
+TrainPipelineParamsSchema = class_schema(TrainPipelineParams)
 
 
-def read_training_pipeline_params(path: str) -> TrainingPipelineParams:
+def read_train_pipeline_params(path: str) -> TrainPipelineParams:
+    """
+    Read configuration file for training pipeline.
+    :param path: path to config file
+    :return: config dataclass
+    """
     with open(path, "r") as input_stream:
-        schema = TrainingPipelineParamsSchema()
+        schema = TrainPipelineParamsSchema()
         return schema.load(yaml.safe_load(input_stream))

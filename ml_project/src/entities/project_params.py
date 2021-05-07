@@ -19,6 +19,8 @@ class CategoricalColumn:
     nunique: int
 
 
+APPLICATION_NAME = "ml_project"
+
 CATEGORICAL_COLUMNS = {
     "sex": CategoricalColumn("sex", 2),
     "cp": CategoricalColumn("cp", 4),
@@ -38,8 +40,6 @@ NUMERICAL_COLUMNS = {
     "oldpeak": NumericalColumn("oldpeak", 1.04, 1.61),
 }
 
-ZERO_COLUMNS = ["oldpeak"]
-
 LABEL_COLUMN = "target"
 
 ARTIFACT_DIR = Path("experiments")
@@ -49,5 +49,3 @@ DATA_DIR = Path("data/raw")
 PROCESSED_DIR = Path("data/processed")
 
 REPORT_DIR = Path("reports")
-
-TEST_DATA_DIR = Path("tests/data")
