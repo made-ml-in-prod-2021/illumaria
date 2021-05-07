@@ -6,7 +6,7 @@ from numpy.testing import assert_allclose
 
 from src.data.make_dataset import read_data
 from src.entities.feature_params import FeatureParams
-from src.features.build_features import build_transformer, extract_target, make_features
+from src.features.build_features import build_transformer, make_features
 
 
 @pytest.fixture
@@ -25,21 +25,15 @@ def feature_params(
     return params
 
 
-def test_make_features(
-    feature_params: FeatureParams, dataset_path: str,
-):
+def test_make_features(feature_params: FeatureParams, dataset_path: str):
     data = read_data(dataset_path)
+
     transformer = build_transformer(feature_params)
     transformer.fit(data)
-    features = make_features(transformer, data)
+
+    features, target = make_features(transformer, data, feature_params)
     assert not pd.isnull(features).any().any()
     assert all(x not in features.columns for x in feature_params.features_to_drop)
-
-
-def test_extract_features(feature_params: FeatureParams, dataset_path: str):
-    data = read_data(dataset_path)
-
-    target = extract_target(data, feature_params)
     assert_allclose(
         data[feature_params.target_col].to_numpy(), target.to_numpy()
     )

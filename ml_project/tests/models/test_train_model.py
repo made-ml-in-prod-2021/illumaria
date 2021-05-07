@@ -8,9 +8,9 @@ from py._path.local import LocalPath
 from sklearn.ensemble import RandomForestClassifier
 
 from src.data.make_dataset import read_data
-from src.entities import TrainingParams
+from src.entities import TrainParams
 from src.entities.feature_params import FeatureParams
-from src.features.build_features import build_transformer, extract_target, make_features
+from src.features.build_features import build_transformer, make_features
 from src.models.train_model import serialize_model, train_model
 
 
@@ -27,14 +27,13 @@ def features_and_target(
     data = read_data(dataset_path)
     transformer = build_transformer(params)
     transformer.fit(data)
-    features = make_features(transformer, data)
-    target = extract_target(data, params)
+    features, target = make_features(transformer, data, params)
     return features, target
 
 
 def test_train_model(features_and_target: Tuple[pd.DataFrame, pd.Series]):
     features, target = features_and_target
-    model = train_model(features, target, train_params=TrainingParams())
+    model = train_model(features, target, train_params=TrainParams())
     assert isinstance(model, RandomForestClassifier)
     assert model.predict(features).shape[0] == target.shape[0]
 
