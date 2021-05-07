@@ -28,7 +28,6 @@ logger.addHandler(file_handler)
 logger.addHandler(stream_handler)
 
 
-
 def save_statistics(data: pd.DataFrame, output_dir: Path) -> NoReturn:
     """
     Save the data info and value statistics.

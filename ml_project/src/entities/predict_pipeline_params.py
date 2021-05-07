@@ -1,6 +1,6 @@
 import yaml
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from marshmallow_dataclass import class_schema
 
 from .feature_params import FeatureParams

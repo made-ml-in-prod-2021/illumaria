@@ -1,4 +1,3 @@
-import json
 import logging
 import os
 import sys
@@ -7,7 +6,6 @@ import hydra
 import pandas as pd
 from omegaconf import DictConfig, OmegaConf
 
-from src.data import read_data, split_train_val_data
 from src.entities.project_params import APPLICATION_NAME
 from src.entities.predict_pipeline_params import (
     PredictPipelineParams,
