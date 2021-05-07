@@ -1,8 +1,10 @@
 # ML project for ML in Production course
 
-ML project for ML in Production course.
-
 ## Prerequisites
+
+* Python >= 3.7
+* pip >= 19.0.3
+* [Heart Disease UCI Dataset](https://www.kaggle.com/ronitf/heart-disease-uci)
 
 ## Installation
 
@@ -23,67 +25,108 @@ python src/visualization/visualize.py -i data/raw/heart.csv -o reports/heart
 ### Train model
 
 ```bash
-python src/train_pipeline.py configs/train_config.yaml
+python src/train_pipeline.py [--config-path <path>] [--config-name <name>]
 ```
 
 ### Predict with model
 
 ```bash
-python src/predict_pipeline.py configs/predict_config.yaml
+python src/predict_pipeline.py [--config-path <path>] [--config-name <name>]
 ```
 
 ### Run tests
 
 ```bash
-pytest tests/
+pip install pytest pytest-cov
+python -m pytest . -v --cov
 ```
 
 ## Project structure
 ------------
 
-    ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
+    ├── configs                        <- Configuration files for project modules.
+    │   ├── feature_params
+    │   │   └── default.yaml
+    │   │
+    │   ├── split_params
+    │   │   ├── val_10_rand_42.yaml
+    │   │   └── val_20_rand_4.yaml
+    │   │
+    │   ├── train_params
+    │   │   ├── logistic_regression.yaml
+    │   │   └── random_forest_classifier.yaml
+    │   │
+    │   ├── predict_config.yaml
+    │   └── train_config.yaml
+    │
     ├── data
-    │   └── raw            <- The original, immutable data dump.
+    │   └── raw                        <- The original, immutable data dump.
     │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
+    ├── logs                           <- Training and prediction log files.
     │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
+    ├── models                         <- Trained and serialized models, model predictions, or model summaries.
     │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
+    ├── notebooks                      <- Jupyter notebooks. Naming convention is a number (for ordering),
+    │                                     the creator's initials, and a short `-` delimited description, e.g.
+    │                                     `1.0-jqp-initial-data-exploration`.
     │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
+    ├── reports                        <- Generated analysis as HTML, PDF, LaTeX, etc.
     │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
+    ├── src                            <- Source code for use in this project.
+    │   ├── __init__.py                <- Makes src a Python module.
     │   │
-    │   ├── data           <- Scripts to download or generate data
+    │   ├── data                       <- Scripts to download or generate data.
     │   │   └── make_dataset.py
     │   │
-    │   ├── entities       <- Parameters for different project modules
-    │   │   └── make_dataset.py
-    │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
+    │   ├── entities                   <- Parameters for different project modules.
     │   │   ├── feature_params.py
+    │   │   ├── predict_pipeline_params.py
     │   │   ├── project_params.py
     │   │   ├── split_params.py
     │   │   ├── train_params.py
-    │   │   └── train_pipeline_params.py
+    │   │   └── train_pipeline_params.py    
     │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
+    │   ├── features                   <- Scripts to turn raw data into features for modeling.
+    │   │   └── build_features.py
+    │   │
+    │   ├── models                     <- Scripts to train models and then use trained models to make
+    │   │   │                             predictions.
+    │   │   ├── encoders.py
     │   │   ├── predict_model.py
     │   │   └── train_model.py
     │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
+    │   ├── visualization              <- Scripts to create exploratory and results oriented visualizations.
+    │   │   └── visualize.py
+    │   │
+    │   ├── predict_pipeline.py
+    │   └── train_pipeline.py
     │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+    ├── tests                          <- Code to test project modules and pipelines.
+    │   ├── data
+    │   │   └── test_make_dataset.py
+    │   │
+    │   ├── features
+    │   │   ├── test_make_categorical_features.py
+    │   │   └── test_make_features.py
+    │   │
+    │   ├── models
+    │   │   ├── test_encoders.py
+    │   │   └── test_train_model.py
+    │   │
+    │   ├── conftest.py
+    │   ├── test_end2end_training.py
+    │   └── train_data_sample.csv
+    │
+    ├── LICENSE
+    │
+    ├── README.md                      <- The top-level README for developers using this project.
+    │
+    ├── requirements.txt               <- The requirements file for reproducing the analysis environment, e.g.
+    │                                     generated with `pip freeze > requirements.txt`
+    │
+    ├── setup.py                       <- Makes project pip installable (pip install -e .) so src can be imported.
+    │
+    └── tox.ini                        <- tox file with settings for running tox; see tox.readthedocs.io.
 
 
 ------------
