@@ -79,7 +79,7 @@ def train_pipeline(training_pipeline_params: TrainPipelineParams):
         json.dump(metrics, metric_file)
     logger.info(f"metrics are: {metrics}")
 
-    path_to_model = serialize_model(model, training_pipeline_params.output_model_path)
+    path_to_model = serialize_model(model, training_pipeline_params.output_model_path, transformer)
 
     logger.info("Done.")
 

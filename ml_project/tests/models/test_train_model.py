@@ -5,7 +5,9 @@ from typing import List, Tuple
 import pandas as pd
 import pytest
 from py._path.local import LocalPath
+from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.pipeline import Pipeline
 
 from src.data.make_dataset import read_data
 from src.entities import TrainParams
@@ -40,11 +42,12 @@ def test_train_model(features_and_target: Tuple[pd.DataFrame, pd.Series]):
 
 def test_serialize_model(tmpdir: LocalPath):
     expected_output = tmpdir.join("model.pkl")
+    transformer = ColumnTransformer([])
     n_estimators = 10
     model = RandomForestClassifier(n_estimators=n_estimators)
-    real_output = serialize_model(model, expected_output)
+    real_output = serialize_model(model, expected_output, transformer)
     assert real_output == expected_output
-    assert os.path.exists
+    assert os.path.exists(real_output)
     with open(real_output, "rb") as f:
         model = pickle.load(f)
-    assert isinstance(model, RandomForestClassifier)
+    assert isinstance(model, Pipeline)

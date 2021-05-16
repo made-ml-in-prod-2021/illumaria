@@ -1,11 +1,13 @@
 import pickle
-from typing import Dict, Union, NoReturn
+from typing import Dict, Optional, Union, NoReturn
 
 import numpy as np
 import pandas as pd
+from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, roc_auc_score
+from sklearn.pipeline import Pipeline
 
 from src.entities.train_params import TrainParams
 
@@ -49,13 +51,20 @@ def evaluate_model(predicts: np.ndarray, target: pd.Series) -> Dict[str, float]:
     }
 
 
-def serialize_model(model: ClassificationModel, path: str) -> NoReturn:
+def serialize_model(model: ClassificationModel, path: str, transformer: Optional[ColumnTransformer] = None) -> NoReturn:
     """
     Save model to pickle file.
+    :param transformer: the transformer to save
     :param model: the model to save
     :param path: the file to save to
     :return: the path to saved file
     """
+    pipeline = Pipeline((
+        [
+            ("transformer", transformer),
+            ("model", model),
+        ]
+    ))
     with open(path, "wb") as fout:
-        pickle.dump(model, fout)
+        pickle.dump(pipeline, fout)
     return path
