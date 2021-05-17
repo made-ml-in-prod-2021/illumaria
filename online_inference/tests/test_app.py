@@ -59,7 +59,7 @@ def test_validation_for_binary_values():
         data.sex = 42
         response = client.post("/predict", data=json.dumps([data.__dict__]))
         assert 400 == response.status_code
-        expected_message = f"Parameter 'sex' has value 42 which is not binary."
+        expected_message = "Parameter 'sex' has value 42 which is not binary."
         assert (expected_message == response.json()["detail"])
 
 
@@ -69,5 +69,5 @@ def test_validation_for_out_of_range_values():
         data.age = 1000
         response = client.post("/predict", data=json.dumps([data.__dict__]))
         assert 400 == response.status_code
-        expected_message = f"Parameter 'age' has value 1000 which is out of [0, 150] range."
+        expected_message = "Parameter 'age' has value 1000 which is out of [0, 150] range."
         assert (expected_message == response.json()["detail"])
