@@ -40,4 +40,5 @@ jobs:
     - name: Test online_inference with pytest
       run: |
         cd online_inference
+        pip install requests
         pytest
