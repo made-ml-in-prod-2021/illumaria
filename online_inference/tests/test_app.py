@@ -1,13 +1,9 @@
-import json
-
 import pytest
+import json
 from fastapi.testclient import TestClient
 
-from app import (
-    app,
-    load_model,
-    HeartData,
-)
+from app import app, load_model
+from src.entities import HeartData
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -54,3 +50,23 @@ def test_predict_endpoint_with_wrong_data_type():
         expected_message = "value is not a valid integer"
         assert 422 == response.status_code
         assert expected_message == response.json()["detail"][0]["msg"]
+
+
+def test_validation_for_binary_values():
+    with TestClient(app) as client:
+        data = HeartData()
+        data.sex = 42
+        response = client.post("/predict", data=json.dumps([data.__dict__]))
+        assert 400 == response.status_code
+        expected_message = f"Parameter 'sex' has value 42 which is not binary."
+        assert (expected_message == response.json()["detail"])
+
+
+def test_validation_for_out_of_range_values():
+    with TestClient(app) as client:
+        data = HeartData()
+        data.age = 1000
+        response = client.post("/predict", data=json.dumps([data.__dict__]))
+        assert 400 == response.status_code
+        expected_message = f"Parameter 'age' has value 1000 which is out of [0, 150] range."
+        assert (expected_message == response.json()["detail"])

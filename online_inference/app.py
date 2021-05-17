@@ -6,9 +6,11 @@ from typing import List, Optional
 
 import pandas as pd
 import uvicorn
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException
 from sklearn.pipeline import Pipeline
+
+from src.entities import HeartData, HeartResponse
+from src.validate import is_data_valid
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -18,6 +20,8 @@ stream_handler.setLevel(logging.DEBUG)
 stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 
+pipeline: Optional[Pipeline] = None
+
 app = FastAPI()
 
 
@@ -26,35 +30,7 @@ def load_object(path: str) -> Pipeline:
         return pickle.load(f)
 
 
-class HeartData(BaseModel):
-    id: int = 0
-    age: int = 18
-    sex: int = 0
-    cp: int = 0
-    trestbps: int = 100
-    chol: int = 245
-    fbs: int = 0
-    restecg: int = 0
-    thalach: int = 100
-    exang: int = 0
-    oldpeak: float = 0
-    slope: int = 0
-    ca: int = 0
-    thal: int = 0
-
-
-class HeartResponse(BaseModel):
-    id: int
-    target: int
-
-
-pipeline: Optional[Pipeline] = None
-
-
-def make_prediction(
-    data: List[HeartData],
-    pipeline: Pipeline,
-) -> List[HeartResponse]:
+def make_prediction(data: List[HeartData], pipeline: Pipeline) -> List[HeartResponse]:
     data = pd.DataFrame(x.__dict__ for x in data)
     ids = [int(x) for x in data.id]
     predicts = pipeline.predict(data.drop("id", axis=1))
@@ -88,6 +64,10 @@ def status() -> bool:
 
 @app.api_route("/predict", response_model=List[HeartResponse], methods=["GET", "POST"])
 def predict(request: List[HeartData]):
+    for data in request:
+        is_valid, error_message = is_data_valid(data)
+        if not is_valid:
+            raise HTTPException(status_code=400, detail=error_message)
     return make_prediction(request, pipeline)
 
 
