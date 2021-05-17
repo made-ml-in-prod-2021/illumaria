@@ -12,6 +12,7 @@
 
 ```bash
 git clone https://github.com/made-ml-in-prod-2021/illumaria.git
+cd illumaria
 git checkout homework2
 cd online_inference
 docker build -t illumaria/online_inference:v3 .
