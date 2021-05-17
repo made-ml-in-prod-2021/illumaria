@@ -28,7 +28,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install flake8 pytest
-        pip install -r ml_project/requirements.txt
+        cd ml_project; pip install -r requirements.txt; cd ..
         pip install -r online_inference/requirements.txt
     - name: Lint with flake8
       run: |
