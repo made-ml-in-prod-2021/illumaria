@@ -2,12 +2,12 @@ import logging
 import os
 import pickle
 import sys
-from typing import List, Union, Optional
+from typing import List, Optional
 
 import pandas as pd
 import uvicorn
 from fastapi import FastAPI
-from pydantic import BaseModel, conlist
+from pydantic import BaseModel
 from sklearn.pipeline import Pipeline
 
 logger = logging.getLogger(__name__)
@@ -26,9 +26,21 @@ def load_object(path: str) -> Pipeline:
         return pickle.load(f)
 
 
-class HeartModel(BaseModel):
-    data: List[conlist(Union[int, float, str, None])]
-    features: List[str]
+class HeartData(BaseModel):
+    id: int = 0
+    age: int = 18
+    sex: int = 0
+    cp: int = 0
+    trestbps: int = 100
+    chol: int = 245
+    fbs: int = 0
+    restecg: int = 0
+    thalach: int = 100
+    exang: int = 0
+    oldpeak: float = 0
+    slope: int = 0
+    ca: int = 0
+    thal: int = 0
 
 
 class HeartResponse(BaseModel):
@@ -40,13 +52,12 @@ pipeline: Optional[Pipeline] = None
 
 
 def make_prediction(
-    data: List,
-    features: List[str],
+    data: List[HeartData],
     pipeline: Pipeline,
 ) -> List[HeartResponse]:
-    data = pd.DataFrame(data, columns=features)
-    ids = [int(x) for x in data.index]
-    predicts = pipeline.predict(data)
+    data = pd.DataFrame(x.__dict__ for x in data)
+    ids = [int(x) for x in data.id]
+    predicts = pipeline.predict(data.drop("id", axis=1))
 
     return [
         HeartResponse(id=id_, target=int(target_))
@@ -61,7 +72,7 @@ def main():
 
 @app.on_event("startup")
 def load_model():
-    model_path = os.getenv("PATH_TO_MODEL")
+    model_path = os.getenv("PATH_TO_MODEL", default="model.pkl")
     if model_path is None:
         err = f"PATH_TO_MODEL {model_path} is None"
         logger.error(err)
@@ -76,8 +87,8 @@ def status() -> bool:
 
 
 @app.api_route("/predict", response_model=List[HeartResponse], methods=["GET", "POST"])
-def predict(request: HeartModel):
-    return make_prediction(request.data, request.features, pipeline)
+def predict(request: List[HeartData]):
+    return make_prediction(request, pipeline)
 
 
 if __name__ == "__main__":

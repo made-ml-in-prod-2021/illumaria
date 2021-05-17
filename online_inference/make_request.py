@@ -1,18 +1,19 @@
-import numpy as np
-import pandas as pd
+import json
 import requests
 
+import pandas as pd
+
+
 if __name__ == "__main__":
-    data = pd.read_csv("data.csv")
-    request_features = list(data.columns)
-    for i in range(len(data)):
-        request_data = [
-            x.item() if isinstance(x, np.generic) else x for x in data.iloc[i].tolist()
-        ]
-        print(request_data)
-        response = requests.get(
-            "http://0.0.0.0:8000/predict",
-            json={"data": [request_data], "features": request_features},
-        )
-        print(response.status_code)
-        print(response.json())
+    data = pd.read_csv("data.csv").drop("target", axis=1)
+    data["id"] = range(len(data))
+    request_data = data.to_dict(orient="records")
+    print("Request data:")
+    print(request_data)
+    response = requests.post(
+        "http://0.0.0.0:8000/predict",
+        json.dumps(request_data)
+    )
+    print(f"Status code: {response.status_code}")
+    print(f"Response data:")
+    print(response.json())
