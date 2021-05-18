@@ -30,19 +30,24 @@ docker pull illumaria/online_inference:v3
 
 ```bash
 docker run --rm -p 8000:8000 illumaria/online_inference:v3
+```
+
+Run from another terminal:
+```bash
 python make_request.py
 ```
 
 ### Run tests
 
 ```bash
-pip install pytest pytest-cov
+pip install -q pytest pytest-cov
 python -m pytest . -v --cov
 ```
 
 ### Run linter
 
 ```bash
+pip install -q flake8
 flake8 . --count --max-line-length=120 --statistics
 ```
 
