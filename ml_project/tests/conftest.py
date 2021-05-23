@@ -1,13 +1,30 @@
 import os
+from typing import List, cast
 
+import numpy as np
+import pandas as pd
 import pytest
-from typing import List
+from hydra.experimental import compose, initialize
+
+from src.entities.train_pipeline_params import TrainPipelineParams
 
 
 @pytest.fixture(scope="module")
 def dataset_path():
     curdir = os.path.dirname(__file__)
     return os.path.join(curdir, "train_data_sample.csv")
+
+
+@pytest.fixture(scope="module")
+def model_path():
+    curdir = os.path.dirname(__file__)
+    return os.path.join(curdir, "model.pkl")
+
+
+@pytest.fixture(scope="module")
+def output_data_path():
+    curdir = os.path.dirname(__file__)
+    return os.path.join(curdir, "prediction.csv")
 
 
 @pytest.fixture(scope="module")

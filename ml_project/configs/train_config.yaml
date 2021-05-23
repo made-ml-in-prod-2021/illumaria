@@ -1,7 +1,7 @@
 # @package _global_
 input_data_path: "data/raw/heart.csv"
 output_model_path: "models/model.pkl"
-metric_path: "models/metrics.json"
+metrics_path: "models/metrics.json"
 defaults:
   - split_params: val_20_rand_4
   - feature_params: default

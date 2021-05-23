@@ -65,13 +65,11 @@ def train_pipeline(training_pipeline_params: TrainPipelineParams):
         val_target,
     )
 
-    with open(training_pipeline_params.metric_path, "w") as metric_file:
+    with open(training_pipeline_params.metrics_path, "w") as metric_file:
         json.dump(metrics, metric_file)
     logger.info(f"metrics are: {metrics}")
 
     path_to_model = serialize_model(model, training_pipeline_params.output_model_path, transformer)
-
-    logger.info("Done.")
 
     return path_to_model, metrics
 

@@ -13,7 +13,7 @@ class TrainPipelineParams:
     """Dataclass for training pipeline configuration."""
     input_data_path: str
     output_model_path: str
-    metric_path: str
+    metrics_path: str
     split_params: SplitParams
     feature_params: FeatureParams
     train_params: TrainParams

@@ -10,6 +10,7 @@
 
 ```bash
 git clone https://github.com/made-ml-in-prod-2021/illumaria.git
+cd illumaria
 git checkout homework1
 cd ml_project
 python -m venv .venv
@@ -28,20 +29,20 @@ python src/visualization/visualize.py -i data/raw/heart.csv -o reports/heart
 ### Train model
 
 ```bash
-python src/train_pipeline.py [--config-path <path>] [--config-name <name>]
+python src/train_pipeline.py
 ```
 
 ### Predict with model
 
 ```bash
-python src/predict_pipeline.py [--config-path <path>] [--config-name <name>]
+python src/predict_pipeline.py
 ```
 
 ### Run tests
 
 ```bash
 pip install pytest pytest-cov
-python -m pytest . -v --cov
+python -m pytest . -v --cov=src
 ```
 
 ### Run linter

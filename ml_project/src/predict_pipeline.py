@@ -29,20 +29,10 @@ def predict_pipeline(prediction_pipeline_params: PredictPipelineParams):
     data = pd.read_csv(prediction_pipeline_params.input_data_path)
     logger.info(f"Data shape is {data.shape}")
 
-    model = deserialize_model(prediction_pipeline_params.model_path)
-    logger.info(f"Loaded model: {model}")
+    pipeline = deserialize_model(prediction_pipeline_params.model_path)
+    logger.info(f"Loaded pipeline: {pipeline}")
 
-    feature_transformer = build_transformer(prediction_pipeline_params.feature_params)
-    feature_transformer.fit(data)
-
-    features, target = make_features(
-        feature_transformer,
-        data,
-        prediction_pipeline_params.feature_params,
-    )
-    logger.info(f"Features shape is {features.shape}")
-
-    predictions = predict_model(model, features)
+    predictions = predict_model(pipeline, data)
     logger.info(f"Predictions shape is {predictions.shape}")
 
     data["predictions"] = predictions
