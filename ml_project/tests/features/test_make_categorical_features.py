@@ -7,22 +7,22 @@ import pytest
 from src.features.build_features import process_categorical_features
 
 
-@pytest.fixture()
+@pytest.fixture(scope="function")
 def categorical_feature() -> str:
     return "categorical_feature"
 
 
-@pytest.fixture()
+@pytest.fixture(scope="function")
 def categorical_values() -> List[str]:
     return ["cat", "dog", "parrot"]
 
 
-@pytest.fixture()
+@pytest.fixture(scope="function")
 def categorical_values_with_nan(categorical_values: List[str]) -> List[str]:
     return categorical_values + [np.nan]
 
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def fake_categorical_data(
     categorical_feature: str, categorical_values_with_nan: List[str]
 ) -> pd.DataFrame:

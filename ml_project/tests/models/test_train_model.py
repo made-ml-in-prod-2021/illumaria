@@ -16,7 +16,7 @@ from src.features.build_features import build_transformer, make_features
 from src.models.train_model import serialize_model, train_model
 
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def features_and_target(
     dataset_path: str, categorical_features: List[str], numerical_features: List[str]
 ) -> Tuple[pd.DataFrame, pd.Series]:

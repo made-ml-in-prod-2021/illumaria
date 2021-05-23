@@ -9,7 +9,7 @@ from src.entities.feature_params import FeatureParams
 from src.features.build_features import build_transformer, make_features
 
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def feature_params(
     categorical_features: List[str],
     features_to_drop: List[str],

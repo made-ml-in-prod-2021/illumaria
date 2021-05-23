@@ -36,18 +36,15 @@ def predict_pipeline(prediction_pipeline_params: PredictPipelineParams):
     :param prediction_pipeline_params: prediction params
     :return: nothing
     """
-    logger.info("Loading data...")
     data = pd.read_csv(prediction_pipeline_params.input_data_path)
     logger.info(f"Data shape is {data.shape}")
 
-    logger.info("Loading model...")
     model = deserialize_model(prediction_pipeline_params.model_path)
     logger.info(f"Loaded model: {model}")
 
     feature_transformer = build_transformer(prediction_pipeline_params.feature_params)
     feature_transformer.fit(data)
 
-    logger.info("Preparing features...")
     features, target = make_features(
         feature_transformer,
         data,
@@ -55,14 +52,12 @@ def predict_pipeline(prediction_pipeline_params: PredictPipelineParams):
     )
     logger.info(f"Features shape is {features.shape}")
 
-    logger.info("Making predictions...")
     predictions = predict_model(model, features)
     logger.info(f"Predictions shape is {predictions.shape}")
 
     data["predictions"] = predictions
-    logger.info(f"Saving predictions to {prediction_pipeline_params.output_data_path}...")
     data.to_csv(prediction_pipeline_params.output_data_path)
-    logger.info("Done.")
+    logger.info(f"Saved predictions to {prediction_pipeline_params.output_data_path}")
 
 
 @hydra.main(config_path="../configs", config_name="predict_config.yaml")

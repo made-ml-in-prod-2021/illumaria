@@ -8,7 +8,7 @@ def test_load_dataset(dataset_path: str, target_col: str):
     assert target_col in data.keys()
 
 
-def test_split_dataset(tmpdir, dataset_path: str):
+def test_split_dataset(dataset_path: str):
     val_size = 0.2
     splitting_params = SplitParams(random_state=42, val_size=val_size,)
     data = read_data(dataset_path)

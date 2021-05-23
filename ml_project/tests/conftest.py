@@ -4,18 +4,18 @@ import pytest
 from typing import List
 
 
-@pytest.fixture()
+@pytest.fixture(scope="module")
 def dataset_path():
     curdir = os.path.dirname(__file__)
     return os.path.join(curdir, "train_data_sample.csv")
 
 
-@pytest.fixture()
+@pytest.fixture(scope="module")
 def target_col():
     return "target"
 
 
-@pytest.fixture()
+@pytest.fixture(scope="module")
 def categorical_features() -> List[str]:
     return [
         "sex",
@@ -29,7 +29,7 @@ def categorical_features() -> List[str]:
     ]
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def numerical_features() -> List[str]:
     return [
         "age",
@@ -40,6 +40,6 @@ def numerical_features() -> List[str]:
     ]
 
 
-@pytest.fixture()
+@pytest.fixture(scope="module")
 def features_to_drop() -> List[str]:
     return []

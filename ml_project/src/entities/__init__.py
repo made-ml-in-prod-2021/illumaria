@@ -14,7 +14,6 @@ from .train_pipeline_params import (
 
 __all__ = [
     "FeatureParams",
-    "PredictParams",
     "PredictPipelineParams",
     "PredictPipelineParamsSchema",
     "SplitParams",
