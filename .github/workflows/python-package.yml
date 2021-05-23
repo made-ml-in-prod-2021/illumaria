@@ -35,9 +35,7 @@ jobs:
         flake8 . --count --max-line-length=120 --statistics
     - name: Test ml_project with pytest
       run: |
-        cd ml_project
-        pytest
+        if [ -d ml_project ]; then cd ml_project && pytest; fi
     - name: Test online_inference with pytest
       run: |
-        cd online_inference
-        pytest
+        if [ -d online_inference ]; then cd online_inference && pytest; fi
