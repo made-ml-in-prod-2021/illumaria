@@ -6,7 +6,6 @@ from py._path.local import LocalPath
 from src.predict_pipeline import predict_pipeline
 from src.entities import (
     FeatureParams,
-    SplitParams,
     PredictPipelineParams,
 )
 

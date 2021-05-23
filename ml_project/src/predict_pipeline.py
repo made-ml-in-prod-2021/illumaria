@@ -1,6 +1,4 @@
-import logging
 import os
-import sys
 
 import hydra
 import pandas as pd
@@ -10,7 +8,6 @@ from src.entities.predict_pipeline_params import (
     PredictPipelineParams,
     PredictPipelineParamsSchema,
 )
-from src.features.build_features import build_transformer, make_features
 from src.models import (
     deserialize_model,
     predict_model,

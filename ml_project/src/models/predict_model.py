@@ -1,11 +1,8 @@
 import pickle
-from typing import Union
 
 import numpy as np
 import pandas as pd
 from sklearn.pipeline import Pipeline
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
 
 
 def deserialize_model(path: str) -> Pipeline:

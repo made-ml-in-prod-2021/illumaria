@@ -1,12 +1,7 @@
 import os
-from typing import List, cast
+from typing import List
 
-import numpy as np
-import pandas as pd
 import pytest
-from hydra.experimental import compose, initialize
-
-from src.entities.train_pipeline_params import TrainPipelineParams
 
 
 @pytest.fixture(scope="module")
