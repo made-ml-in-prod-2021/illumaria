@@ -1,4 +1,0 @@
-# local package
-.
-
-# external requirements are listed in setup.py
