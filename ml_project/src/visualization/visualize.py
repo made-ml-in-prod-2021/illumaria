@@ -9,23 +9,13 @@ import pandas as pd
 import seaborn as sns
 
 from src.entities.project_params import (
-    APPLICATION_NAME,
     CATEGORICAL_COLUMNS,
     NUMERICAL_COLUMNS,
     LABEL_COLUMN,
 )
+from src.utils import setup_logger
 
-logger = logging.getLogger(APPLICATION_NAME)
-logger.setLevel(logging.DEBUG)
-formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-file_handler = logging.FileHandler("logs/train.log")
-file_handler.setLevel(logging.INFO)
-file_handler.setFormatter(formatter)
-stream_handler = logging.StreamHandler(sys.stdout)
-stream_handler.setLevel(logging.DEBUG)
-stream_handler.setFormatter(formatter)
-logger.addHandler(file_handler)
-logger.addHandler(stream_handler)
+logger = setup_logger(path="logs/visualize.log")
 
 
 def save_statistics(data: pd.DataFrame, output_dir: Path) -> NoReturn:

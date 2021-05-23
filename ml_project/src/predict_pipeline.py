@@ -6,7 +6,6 @@ import hydra
 import pandas as pd
 from omegaconf import DictConfig, OmegaConf
 
-from src.entities.project_params import APPLICATION_NAME
 from src.entities.predict_pipeline_params import (
     PredictPipelineParams,
     PredictPipelineParamsSchema,
@@ -16,18 +15,9 @@ from src.models import (
     deserialize_model,
     predict_model,
 )
+from src.utils import setup_logger
 
-logger = logging.getLogger(APPLICATION_NAME)
-logger.setLevel(logging.DEBUG)
-formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-file_handler = logging.FileHandler("logs/predict.log")
-file_handler.setLevel(logging.INFO)
-file_handler.setFormatter(formatter)
-stream_handler = logging.StreamHandler(sys.stdout)
-stream_handler.setLevel(logging.DEBUG)
-stream_handler.setFormatter(formatter)
-logger.addHandler(file_handler)
-logger.addHandler(stream_handler)
+logger = setup_logger(path="logs/predict.log")
 
 
 def predict_pipeline(prediction_pipeline_params: PredictPipelineParams):
