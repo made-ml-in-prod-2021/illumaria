@@ -1,8 +1,11 @@
+import logging
 import pickle
 
 import numpy as np
 import pandas as pd
 from sklearn.pipeline import Pipeline
+
+logger = logging.getLogger(__name__)
 
 
 def deserialize_model(path: str) -> Pipeline:
@@ -11,8 +14,13 @@ def deserialize_model(path: str) -> Pipeline:
     :param path: file to load from
     :return: deserialized Pipeline class
     """
-    with open(path, "rb") as fin:
-        return pickle.load(fin)
+    try:
+        with open(path, "rb") as fin:
+            pipeline = pickle.load(fin)
+            logger.info(f"Loaded pipeline: {pipeline}")
+            return pipeline
+    except Exception as err:
+        logger.error(err)
 
 
 def predict_model(model: Pipeline, features: pd.DataFrame) -> np.ndarray:
@@ -22,4 +30,6 @@ def predict_model(model: Pipeline, features: pd.DataFrame) -> np.ndarray:
     :param features: the features to predict on
     :return: model predictions
     """
-    return model.predict(features)
+    predictions = model.predict(features)
+    logger.info(f"predictions.shape is {predictions.shape}")
+    return predictions

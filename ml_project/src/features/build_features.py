@@ -1,3 +1,4 @@
+import logging
 from typing import Tuple
 
 import numpy as np
@@ -8,6 +9,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 
 from src.entities.feature_params import FeatureParams
+
+logger = logging.getLogger(__name__)
 
 
 def build_categorical_pipeline() -> Pipeline:
@@ -75,6 +78,7 @@ def build_transformer(params: FeatureParams) -> ColumnTransformer:
             ),
         ]
     )
+    logger.info(f"transformer is {transformer}")
     return transformer
 
 
@@ -90,5 +94,9 @@ def make_features(
     :param params: configuration for features processing
     :return: processed dataframes of features and targets
     """
+    data = pd.DataFrame(transformer.transform(df))
     target = df[params.target_col] if params.target_col in df.columns else None
-    return pd.DataFrame(transformer.transform(df)), target
+    logger.info(f"data.shape is {data.shape}")
+    if target is not None:
+        logger.info(f"target.shape is {target.shape}")
+    return data, target

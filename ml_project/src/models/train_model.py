@@ -1,3 +1,4 @@
+import logging
 import pickle
 from typing import Dict, Optional, Union, NoReturn
 
@@ -10,6 +11,8 @@ from sklearn.metrics import accuracy_score, roc_auc_score
 from sklearn.pipeline import Pipeline
 
 from src.entities.train_params import TrainParams
+
+logger = logging.getLogger(__name__)
 
 ClassificationModel = Union[RandomForestClassifier, LogisticRegression]
 
@@ -35,6 +38,7 @@ def train_model(
     else:
         raise NotImplementedError()
     model.fit(features, target)
+    logger.info("Model successfully fitted.")
     return model
 
 
@@ -45,10 +49,12 @@ def evaluate_model(predicts: np.ndarray, target: pd.Series) -> Dict[str, float]:
     :param target: target labels
     :return: a dict of type {'metric': value}
     """
-    return {
+    metrics = {
         "accuracy": accuracy_score(target, predicts),
         "roc_auc": roc_auc_score(target, predicts),
     }
+    logger.info(f"Metrics are: {metrics}")
+    return metrics
 
 
 def serialize_model(model: ClassificationModel, path: str, transformer: Optional[ColumnTransformer] = None) -> NoReturn:
@@ -67,4 +73,5 @@ def serialize_model(model: ClassificationModel, path: str, transformer: Optional
     ))
     with open(path, "wb") as fout:
         pickle.dump(pipeline, fout)
+    logger.info(f"Pipeline saved to {path}")
     return path

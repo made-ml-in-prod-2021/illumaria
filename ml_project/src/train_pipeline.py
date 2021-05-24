@@ -28,47 +28,52 @@ def train_pipeline(training_pipeline_params: TrainPipelineParams):
     :return: nothing
     """
     logger.info(f"Start train pipeline with params {training_pipeline_params}.")
+
     data = read_data(training_pipeline_params.input_data_path)
-    logger.info(f"data.shape is {data.shape}")
     train_df, val_df = split_train_val_data(
         data, training_pipeline_params.split_params
     )
-    logger.info(f"train_df.shape is {train_df.shape}")
-    logger.info(f"val_df.shape is {val_df.shape}")
 
+    logger.info("Building transformer...")
     transformer = build_transformer(training_pipeline_params.feature_params)
+    logger.info("Fitting transformer...")
     transformer.fit(train_df)
+
+    logger.info("Preparing train data...")
     train_features, train_target = make_features(
         transformer, train_df, training_pipeline_params.feature_params
     )
 
-    logger.info(f"train_features.shape is {train_features.shape}")
-
+    logger.info("Training model...")
     model = train_model(
         train_features, train_target, training_pipeline_params.train_params
     )
 
+    logger.info("Preparing validation data...")
     val_features, val_target = make_features(
         transformer, val_df, training_pipeline_params.feature_params
     )
 
-    logger.info(f"val_features.shape is {val_features.shape}")
+    logger.info("Making predictions on validation data...")
     predicts = predict_model(
         model,
         val_features,
     )
 
+    logger.info("Evaluating model...")
     metrics = evaluate_model(
         predicts,
         val_target,
     )
 
+    logger.info("Saving metrics...")
     with open(training_pipeline_params.metrics_path, "w") as metric_file:
         json.dump(metrics, metric_file)
-    logger.info(f"metrics are: {metrics}")
 
+    logger.info("Saving pipeline...")
     path_to_model = serialize_model(model, training_pipeline_params.output_model_path, transformer)
 
+    logger.info("Done.")
     return path_to_model, metrics
 
 

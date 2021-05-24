@@ -1,9 +1,9 @@
 import os
 
 import hydra
-import pandas as pd
 from omegaconf import DictConfig, OmegaConf
 
+from src.data import read_data
 from src.entities.predict_pipeline_params import (
     PredictPipelineParams,
     PredictPipelineParamsSchema,
@@ -23,18 +23,20 @@ def predict_pipeline(prediction_pipeline_params: PredictPipelineParams):
     :param prediction_pipeline_params: prediction params
     :return: nothing
     """
-    data = pd.read_csv(prediction_pipeline_params.input_data_path)
-    logger.info(f"Data shape is {data.shape}")
+    logger.info("Loading data...")
+    data = read_data(prediction_pipeline_params.input_data_path)
 
+    logger.info("Loading pipeline...")
     pipeline = deserialize_model(prediction_pipeline_params.model_path)
-    logger.info(f"Loaded pipeline: {pipeline}")
 
+    logger.info("Making predictions...")
     predictions = predict_model(pipeline, data)
-    logger.info(f"Predictions shape is {predictions.shape}")
 
+    logger.info("Saving predictions...")
     data["predictions"] = predictions
     data.to_csv(prediction_pipeline_params.output_data_path)
-    logger.info(f"Saved predictions to {prediction_pipeline_params.output_data_path}")
+    logger.info(f"Predictions saved to {prediction_pipeline_params.output_data_path}")
+    logger.info("Done.")
 
 
 @hydra.main(config_path="../configs", config_name="predict_config.yaml")
