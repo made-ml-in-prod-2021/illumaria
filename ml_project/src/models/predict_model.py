@@ -1,5 +1,6 @@
 import logging
 import pickle
+import sys
 
 import numpy as np
 import pandas as pd
@@ -19,8 +20,9 @@ def deserialize_model(path: str) -> Pipeline:
             pipeline = pickle.load(fin)
             logger.info(f"Loaded pipeline: {pipeline}")
             return pipeline
-    except Exception as err:
+    except FileNotFoundError as err:
         logger.error(err)
+        sys.exit(0)
 
 
 def predict_model(model: Pipeline, features: pd.DataFrame) -> np.ndarray:
