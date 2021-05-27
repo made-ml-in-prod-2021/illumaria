@@ -1,0 +1,8 @@
+# @package _global_
+input_data_path: "data/raw/heart.csv"
+output_model_path: "models/model.pkl"
+metrics_path: "models/metrics.json"
+defaults:
+  - split_params: val_20_rand_4
+  - feature_params: default
+  - train_params: random_forest_classifier
