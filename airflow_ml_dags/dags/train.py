@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from airflow import DAG
+from airflow.models import Variable
 from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.sensors.filesystem import FileSensor
 from airflow.utils.dates import days_ago
@@ -11,7 +12,7 @@ HOST_RAW_DATA_PATH = "/data/raw/{{ ds }}"
 HOST_PROCESSED_DATA_PATH = "/data/processed/{{ ds }}"
 HOST_SPLITTED_DATA_PATH = "/data/splitted/{{ ds }}"
 HOST_MODELS_PATH = "/data/models/{{ ds }}"
-HOST_DATA_DIR = "/home/uadmin/Projects/haystack/ml_in_prod/illumaria/airflow_ml_dags/data"
+HOST_DATA_DIR = Variable.get("HOST_DATA_DIR")
 
 default_args = {
     "owner": "airflow",

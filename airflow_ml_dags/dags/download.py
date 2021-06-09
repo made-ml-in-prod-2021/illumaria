@@ -1,11 +1,12 @@
 from datetime import timedelta
 
 from airflow import DAG
+from airflow.models import Variable
 from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.utils.dates import days_ago
 
 
-HOST_DATA_DIR = "/home/uadmin/Projects/haystack/ml_in_prod/illumaria/airflow_ml_dags/data"
+HOST_DATA_DIR = Variable.get("HOST_DATA_DIR")
 
 default_args = {
     "owner": "airflow",
@@ -27,7 +28,6 @@ with DAG(
         task_id="docker-airflow-download",
         do_xcom_push=False,
         auto_remove=True,
-        # volumes=[f'{os.environ["HOST_DATA_DIR"]}:/data']
         volumes=[f"{HOST_DATA_DIR}:/data"]
     )
 
