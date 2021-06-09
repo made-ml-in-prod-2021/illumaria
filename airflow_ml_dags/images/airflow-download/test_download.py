@@ -24,7 +24,6 @@ def test_download(n_samples: int, n_features: int) -> None:
         result = runner.invoke(
             download,
             [
-                "--output_dir",
                 str(save_path),
             ],
         )
