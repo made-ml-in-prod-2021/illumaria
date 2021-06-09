@@ -29,13 +29,13 @@ with DAG(
     wait_train_data = FileSensor(
         task_id="wait-for-train-data",
         filepath=f"{AIRFLOW_RAW_DATA_PATH}/data.csv",
-        poke_interval=30
+        poke_interval=30,
     )
 
     wait_train_target = FileSensor(
         task_id="wait-for-train-target",
         filepath=f"{AIRFLOW_RAW_DATA_PATH}/target.csv",
-        poke_interval=30
+        poke_interval=30,
     )
 
     preprocess = DockerOperator(
