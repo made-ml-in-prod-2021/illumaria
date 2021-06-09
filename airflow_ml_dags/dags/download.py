@@ -6,6 +6,8 @@ from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.utils.dates import days_ago
 
 
+HOST_DATA_DIR = "/home/uadmin/Projects/haystack/ml_in_prod/illumaria/airflow_ml_dags/data"
+
 default_args = {
     "owner": "airflow",
     "email": ["airflow@example.com"],
@@ -27,7 +29,7 @@ with DAG(
         do_xcom_push=False,
         auto_remove=True,
         # volumes=[f'{os.environ["HOST_DATA_DIR"]}:/data']
-        volumes=[f'/home/uadmin/Projects/haystack/ml_in_prod/illumaria/airflow_ml_dags/data:/data']
+        volumes=[f"{HOST_DATA_DIR}:/data"]
     )
 
     download
