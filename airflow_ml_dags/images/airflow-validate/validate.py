@@ -7,7 +7,6 @@ import pandas as pd
 from sklearn.metrics import (
     accuracy_score,
     f1_score,
-    roc_auc_score,
 )
 
 VALID_FILENAME = "valid.csv"
@@ -32,7 +31,7 @@ def validate(input_dir: str, models_dir: str):
     valid_data = pd.read_csv(valid_data_path)
     with open(model_path, "rb") as fin:
         model = pickle.load(fin)
-    
+
     predictions = model.predict(valid_data.drop(columns=TARGET_COL, axis=1))
 
     metrics = {

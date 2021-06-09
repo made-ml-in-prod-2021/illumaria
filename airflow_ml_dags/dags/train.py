@@ -67,7 +67,7 @@ with DAG(
         auto_remove=True,
         volumes=[f"{HOST_DATA_DIR}:/data"],
     )
-    
+
     validate = DockerOperator(
         image="airflow-validate",
         command=f"--input_dir {HOST_SPLITTED_DATA_PATH} --models_dir {HOST_MODELS_PATH}",

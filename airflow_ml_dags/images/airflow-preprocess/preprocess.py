@@ -2,7 +2,6 @@ import os
 from shutil import copyfile
 
 import click
-import numpy as np
 import pandas as pd
 
 DATA_FILENAME = "data.csv"
@@ -15,7 +14,7 @@ TARGET_FILENAME = "target.csv"
 def preprocess(input_dir: str, output_dir: str):
     """
     Preprocess train data.
-    :param input_dir: path to raw train data 
+    :param input_dir: path to raw train data
     :param output_dir: path to processed train data
     """
     raw_data_path = os.path.join(input_dir, DATA_FILENAME)
@@ -28,7 +27,7 @@ def preprocess(input_dir: str, output_dir: str):
     train_df = pd.read_csv(raw_data_path)
     train_df.fillna(0)
     train_df.to_csv(processed_data_path, index=False)
-    
+
     if os.path.isfile(raw_target_path):
         copyfile(raw_target_path, processed_target_path)
 

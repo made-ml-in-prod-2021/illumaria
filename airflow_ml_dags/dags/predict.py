@@ -49,7 +49,7 @@ with DAG(
 
     predict = DockerOperator(
         image="airflow-predict",
-        command=f"--input_dir {HOST_PROCESSED_DATA_PATH} --output_dir {HOST_PREDICTIONS_PATH} " \
+        command=f"--input_dir {HOST_PROCESSED_DATA_PATH} --output_dir {HOST_PREDICTIONS_PATH} "
                 "--models_dir /data/models/{{ var.value.model }}",
         network_mode="bridge",
         task_id="docker-airflow-predict",
