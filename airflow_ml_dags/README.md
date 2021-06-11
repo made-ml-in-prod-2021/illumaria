@@ -30,6 +30,10 @@ In those cases when docker only runs with `sudo`, don't forget that `sudo` has i
 sudo -E docker-compose up --build
 ```
 
+After that, go to http://localhost:8080/ (use `login = admin` and `password = admin`), unpause all DAGs, then, while `download` and `train` are running, go to Admin -> Variables (see the screenshot below) and add the variable with name `model` and value that is the date of any `train` DAG in `YYYY-MM-DD` format.
+
+![airflow-env-var](https://user-images.githubusercontent.com/47138294/121669359-e764d080-cab4-11eb-890c-bcc3ad1f354c.png)
+
 ### Run linter
 
 ```bash
