@@ -19,7 +19,7 @@ with DAG(
     "download",
     default_args=default_args,
     schedule_interval="@daily",
-    start_date=days_ago(1),
+    start_date=days_ago(14),
 ) as dag:
     download = DockerOperator(
         image="airflow-download",

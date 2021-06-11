@@ -10,7 +10,7 @@ default_args = {
     "owner": "airflow",
     "email": ["airflow@example.com"],
     "retries": 1,
-    "retry_delay": timedelta(minutes=5),
+    "retry_delay": timedelta(minutes=1),
 }
 
 AIRFLOW_RAW_DATA_PATH = "/opt/airflow/data/raw/{{ ds }}"
@@ -23,7 +23,7 @@ with DAG(
     "predict",
     default_args=default_args,
     schedule_interval="@daily",
-    start_date=days_ago(1),
+    start_date=days_ago(14),
 ) as dag:
     wait_inference_data = FileSensor(
         task_id="wait-for-inference-data",

@@ -25,7 +25,7 @@ with DAG(
     "train",
     default_args=default_args,
     schedule_interval="@weekly",
-    start_date=days_ago(1),
+    start_date=days_ago(14),
 ) as dag:
     wait_train_data = FileSensor(
         task_id="wait-for-train-data",
