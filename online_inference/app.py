@@ -2,6 +2,7 @@ import logging
 import os
 import pickle
 import sys
+import time
 from typing import List, Optional
 
 import pandas as pd
@@ -21,6 +22,8 @@ stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 
 pipeline: Optional[Pipeline] = None
+
+start_time = time.time()
 
 app = FastAPI()
 
@@ -48,6 +51,7 @@ def main():
 
 @app.on_event("startup")
 def load_model():
+    time.sleep(25)
     model_path = os.getenv("PATH_TO_MODEL", default="model.pkl")
     if model_path is None:
         err = f"PATH_TO_MODEL {model_path} is None"
@@ -59,6 +63,9 @@ def load_model():
 
 @app.get("/status")
 def status() -> bool:
+    global start_time
+    if time.time() - start_time > 120:
+        raise RuntimeError
     return f"Pipeline is ready: {pipeline is not None}."
 
 
